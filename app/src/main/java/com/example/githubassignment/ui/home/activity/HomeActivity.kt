@@ -11,6 +11,8 @@ import com.example.githubassignment.data.models.DBRepository
 import com.example.githubassignment.databinding.ActivityMainBinding
 import com.example.githubassignment.ui.base.activities.BaseActivity
 import com.example.githubassignment.ui.home.viewmodels.HomeViewModel
+import com.example.githubassignment.ui.login.LoginActivity
+import com.example.githubassignment.ui.splash.activity.SplashActivity
 import com.example.githubassignment.utils.toast
 import java.lang.ref.WeakReference
 
@@ -62,6 +64,13 @@ class HomeActivity : BaseActivity<HomeViewModel,ActivityMainBinding>(HomeViewMod
 
         setupRepoList()
         setupSearch()
+    }
+
+    override fun initListeners() {
+        super.initListeners()
+        getBinding()?.ivLogout?.setOnClickListener {
+            LoginActivity.newInstance(WeakReference(this))
+        }
     }
 
     override fun observeViewModel() {

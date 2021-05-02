@@ -14,8 +14,6 @@ class LoginActivity : BaseActivity<LoginViewModel,ActivityLoginBinding>(
     override fun getViewBinding(): ActivityLoginBinding = ActivityLoginBinding.inflate(layoutInflater)
 
     override fun initListeners() {
-
-
         getBinding()?.apply {
             btnLogin.setOnClickListener {
                 val username = etUsername.text.toString().trim().takeIf { it.isNotBlank() } ?: run {

@@ -1,5 +1,7 @@
 package com.example.githubassignment.ui.splash.activity
 
+import android.content.Context
+import android.content.Intent
 import com.example.githubassignment.databinding.ActivitySplashBinding
 import com.example.githubassignment.ui.base.activities.BaseActivity
 import com.example.githubassignment.ui.home.activity.HomeActivity
@@ -41,5 +43,12 @@ class SplashActivity : BaseActivity<SplashViewModel, ActivitySplashBinding>(
     }
 
     override fun getViewBinding(): ActivitySplashBinding  = ActivitySplashBinding.inflate(layoutInflater)
+
+    companion object{
+        fun newInstance(weakReference:WeakReference<Context>) =  Intent(
+            weakReference.get(),
+            SplashActivity::class.java
+        )
+    }
 
 }
