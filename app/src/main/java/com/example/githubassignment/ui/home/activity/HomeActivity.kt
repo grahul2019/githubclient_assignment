@@ -29,6 +29,9 @@ class HomeActivity : BaseActivity<HomeViewModel,ActivityMainBinding>(HomeViewMod
 
     override fun setupViews() {
 
+        getBinding()?.tvNoResults?.text = "Search GitHub Repos"
+        getBinding()?.tvNoResults?.show()
+
         fun setupRepoList() {
             getBinding()?.rvRepos?.apply {
                 layoutManager = LinearLayoutManager(this@HomeActivity,RecyclerView.VERTICAL,false)
@@ -83,13 +86,16 @@ class HomeActivity : BaseActivity<HomeViewModel,ActivityMainBinding>(HomeViewMod
 
             _searchTerm.observe(this@HomeActivity){
                 if (it.trim().isNotEmpty()){
+                    getBinding()?.tvNoResults?.remove()
                     getBinding()?.progressbar?.show()
                 }
             }
 
             repos.observe(this@HomeActivity) { repoList ->
                 getBinding()?.progressbar?.remove()
+                getBinding()?.tvNoResults?.text ="No Results found"
                 getBinding()?.tvNoResults?.isVisible = repoList.isNullOrEmpty()
+
                 repositoriesAdapter.submitList(repoList)
                 repositoriesAdapter.notifyDataSetChanged()
             }
