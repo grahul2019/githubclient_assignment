@@ -12,7 +12,7 @@ class HomeViewModel : BaseViewModel() {
 
     private val githubRepo by lazy { GitHubAppRepo() }
 
-    private val _searchTerm by lazy { MutableLiveData<String>() }
+    val _searchTerm by lazy { MutableLiveData<String>() }
 
     private val _repos by lazy { MutableLiveData<List<DBRepository>>() }
     val repos: LiveData<List<DBRepository>> by lazy { _repos }

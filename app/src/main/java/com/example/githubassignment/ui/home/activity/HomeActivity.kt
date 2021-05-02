@@ -13,6 +13,9 @@ import com.example.githubassignment.ui.base.activities.BaseActivity
 import com.example.githubassignment.ui.home.viewmodels.HomeViewModel
 import com.example.githubassignment.ui.login.LoginActivity
 import com.example.githubassignment.ui.splash.activity.SplashActivity
+import com.example.githubassignment.utils.hideKeyboard
+import com.example.githubassignment.utils.remove
+import com.example.githubassignment.utils.show
 import com.example.githubassignment.utils.toast
 import java.lang.ref.WeakReference
 
@@ -54,6 +57,7 @@ class HomeActivity : BaseActivity<HomeViewModel,ActivityMainBinding>(HomeViewMod
                     }
 
                     viewModel.searchResults(searchText)
+                    hideKeyboard()
 
                     return@setOnEditorActionListener true
                 }
@@ -69,15 +73,23 @@ class HomeActivity : BaseActivity<HomeViewModel,ActivityMainBinding>(HomeViewMod
     override fun initListeners() {
         super.initListeners()
         getBinding()?.ivLogout?.setOnClickListener {
-            LoginActivity.newInstance(WeakReference(this))
+            startActivity(LoginActivity.newInstance(WeakReference(this)))
+            finish()
         }
     }
 
     override fun observeViewModel() {
         viewModel.apply {
-            repos.observe(this@HomeActivity) { repoList ->
-                getBinding()?.tvNoResults?.isVisible = repoList.isNullOrEmpty()
 
+            _searchTerm.observe(this@HomeActivity){
+                if (it.trim().isNotEmpty()){
+                    getBinding()?.progressbar?.show()
+                }
+            }
+
+            repos.observe(this@HomeActivity) { repoList ->
+                getBinding()?.progressbar?.remove()
+                getBinding()?.tvNoResults?.isVisible = repoList.isNullOrEmpty()
                 repositoriesAdapter.submitList(repoList)
                 repositoriesAdapter.notifyDataSetChanged()
             }

@@ -1,6 +1,8 @@
 package com.example.githubassignment.utils
 
+import android.content.Context
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -20,4 +22,22 @@ fun FragmentActivity.toast(message: String, isLong: Boolean = false) {
 
 fun Fragment.toast(message: String, isLong: Boolean = false) {
     requireActivity().toast(message, isLong)
+}
+
+fun View.remove() {
+    if (visibility != View.GONE) visibility = View.GONE
+}
+
+fun View.show() {
+    if (visibility != View.VISIBLE) visibility = View.VISIBLE
+}
+
+fun FragmentActivity.hideKeyboard() {
+    val view = this.currentFocus
+    view?.let {
+        (getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).runCatching {
+            hideSoftInputFromWindow(it.windowToken, 0)
+        }.onFailure {
+        }
+    }
 }

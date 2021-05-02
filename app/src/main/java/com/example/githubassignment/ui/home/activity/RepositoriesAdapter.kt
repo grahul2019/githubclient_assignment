@@ -38,7 +38,13 @@ class RepositoriesAdapter(
                 tvNameContent.text = repo.name
                 tvFullNameContent.text = repo.fullName
                 tvWatcherCountContent.text = repo.watchersCount.toString()
-                Glide.with(ivProfileImage.context).load(repo.ownerImage).into(ivProfileImage)
+                Glide.with(item.root.context)
+                    .load(repo.ownerImage)
+                    .apply {
+                        placeholder(R.drawable.ic_image_placeholder)
+                        error(R.drawable.ic_image_error_placeholder)
+                    }
+                    .into(ivProfileImage)
                 clRoot.setOnClickListener { onClick(repo.apply {
                     isFavorite = !isFavorite
                 }) }
